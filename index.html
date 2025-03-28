@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculateur d'impôts pour Intermittents du Spectacle</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="didactique.css">
 </head>
 <body>
     <div class="container">
@@ -23,17 +24,49 @@
             <!-- Onglet Revenus -->
             <div id="revenus" class="tab-pane active">
                 <h2>Vos revenus d'intermittent</h2>
+                
+                <div class="section-explicative">
+                    <h4>Comment déclarer vos revenus d'intermittent ?</h4>
+                    <p>En tant qu'intermittent du spectacle, vous percevez généralement deux types de revenus principaux :</p>
+                    <ul>
+                        <li><strong>Les cachets et salaires</strong> : rémunérations perçues lors de vos missions et contrats</li>
+                        <li><strong>Les allocations chômage</strong> : versées par Pôle Emploi pendant les périodes sans contrat</li>
+                    </ul>
+                    <p>Ces deux types de revenus sont imposables et doivent être déclarés dans des cases spécifiques de votre déclaration d'impôts.</p>
+                </div>
+                
                 <form id="revenus-form">
                     <div class="form-group">
-                        <label for="salaire-brut">Salaire brut total (cachets) :</label>
+                        <label for="salaire-brut">Salaire brut total (cachets) :
+                            <span class="info-bulle">
+                                <span class="icone">i</span>
+                                <span class="contenu">
+                                    Indiquez ici le montant total des salaires bruts perçus durant l'année fiscale. Ce montant figure sur votre attestation fiscale annuelle fournie par Pôle Emploi ou sur vos fiches de paie (cumul annuel). À déclarer dans la case 1AJ de votre déclaration d'impôts.
+                                </span>
+                            </span>
+                        </label>
                         <input type="number" id="salaire-brut" name="salaire-brut" step="0.01" required>
                     </div>
                     <div class="form-group">
-                        <label for="allocations-chomage">Allocations chômage (Pôle Emploi) :</label>
+                        <label for="allocations-chomage">Allocations chômage (Pôle Emploi) :
+                            <span class="info-bulle">
+                                <span class="icone">i</span>
+                                <span class="contenu">
+                                    Indiquez ici le montant total des allocations chômage perçues durant l'année fiscale. Ce montant figure sur votre attestation fiscale annuelle fournie par Pôle Emploi. À déclarer dans la case 1AP de votre déclaration d'impôts.
+                                </span>
+                            </span>
+                        </label>
                         <input type="number" id="allocations-chomage" name="allocations-chomage" step="0.01" required>
                     </div>
                     <div class="form-group">
-                        <label for="autres-revenus">Autres revenus imposables :</label>
+                        <label for="autres-revenus">Autres revenus imposables :
+                            <span class="info-bulle">
+                                <span class="icone">i</span>
+                                <span class="contenu">
+                                    Indiquez ici vos autres revenus imposables (droits d'auteur, revenus fonciers, etc.). Ces revenus peuvent être soumis à des règles fiscales spécifiques selon leur nature.
+                                </span>
+                            </span>
+                        </label>
                         <input type="number" id="autres-revenus" name="autres-revenus" step="0.01" value="0">
                     </div>
                     <div class="form-actions">
@@ -45,12 +78,39 @@
             <!-- Onglet Frais Réels -->
             <div id="frais-reels" class="tab-pane">
                 <h2>Vos frais réels déductibles</h2>
+                
+                <div class="section-explicative">
+                    <h4>Comprendre les options de déduction fiscale</h4>
+                    <p>En tant qu'intermittent du spectacle, vous avez deux options pour déduire vos frais professionnels :</p>
+                    
+                    <div class="bareme-explication">
+                        <h4>Option 1 : Abattement forfaitaire de 10%</h4>
+                        <p>L'administration fiscale applique automatiquement un abattement de 10% sur vos revenus, avec un plafond de 12 829€ pour les revenus de 2023.</p>
+                        <p>Cette option est avantageuse si vous avez peu de frais professionnels.</p>
+                        <div class="formule">Déduction = Min(Revenus × 10%, 12 829€)</div>
+                    </div>
+                    
+                    <div class="bareme-explication">
+                        <h4>Option 2 : Frais réels</h4>
+                        <p>Vous déduisez l'ensemble de vos frais professionnels réellement engagés et justifiés : déplacements, repas, matériel, etc.</p>
+                        <p>Cette option est avantageuse si vos frais dépassent 10% de vos revenus.</p>
+                        <p><strong>Important :</strong> Vous devez conserver tous vos justificatifs pendant 3 ans en cas de contrôle fiscal.</p>
+                    </div>
+                </div>
+                
                 <div class="info-box">
                     <p>En tant qu'intermittent du spectacle, vous pouvez opter pour la déduction des frais réels au lieu de l'abattement forfaitaire de 10%.</p>
                 </div>
                 <form id="frais-form">
                     <div class="form-group">
-                        <label for="option-deduction">Option de déduction :</label>
+                        <label for="option-deduction">Option de déduction :
+                            <span class="info-bulle">
+                                <span class="icone">i</span>
+                                <span class="contenu">
+                                    Choisissez entre l'abattement forfaitaire de 10% (plafonné à 12 829€ pour 2023) ou la déduction des frais réels. Le choix le plus avantageux est celui qui vous permet de déduire le montant le plus élevé.
+                                </span>
+                            </span>
+                        </label>
                         <select id="option-deduction" name="option-deduction">
                             <option value="forfait">Abattement forfaitaire (10%)</option>
                             <option value="reels">Frais réels</option>
@@ -59,6 +119,57 @@
                     
                     <div id="section-frais-reels" class="hidden">
                         <h3>Détail des frais réels</h3>
+                        
+                        <div class="section-explicative">
+                            <h4>Barèmes kilométriques et frais de repas</h4>
+                            <p>Les frais de déplacement et de repas sont calculés selon les barèmes officiels de l'administration fiscale pour 2023 :</p>
+                            
+                            <div class="etape-calcul">
+                                <span class="numero">1</span> <strong>Frais kilométriques</strong> : calculés selon la puissance fiscale du véhicule et la distance parcourue
+                            </div>
+                            
+                            <table class="tableau-explicatif">
+                                <tr>
+                                    <th>Type de véhicule</th>
+                                    <th>Barème</th>
+                                </tr>
+                                <tr>
+                                    <td>Voiture 5 CV</td>
+                                    <td>0,548 €/km jusqu'à 5000 km, puis 0,308 €/km au-delà</td>
+                                </tr>
+                                <tr>
+                                    <td>Moto > 125 cm³</td>
+                                    <td>0,635 €/km jusqu'à 3000 km, puis taux dégressif</td>
+                                </tr>
+                                <tr>
+                                    <td>Scooter ≤ 50 cm³</td>
+                                    <td>0,375 €/km jusqu'à 2000 km, puis taux dégressif</td>
+                                </tr>
+                            </table>
+                            
+                            <div class="etape-calcul">
+                                <span class="numero">2</span> <strong>Frais de repas</strong> : calculés selon le type de repas
+                            </div>
+                            
+                            <table class="tableau-explicatif">
+                                <tr>
+                                    <th>Type de repas</th>
+                                    <th>Montant déductible (2023)</th>
+                                </tr>
+                                <tr>
+                                    <td>Repas au restaurant</td>
+                                    <td>19,40 € par repas</td>
+                                </tr>
+                                <tr>
+                                    <td>Repas sur lieu de travail</td>
+                                    <td>9,90 € par repas</td>
+                                </tr>
+                                <tr>
+                                    <td>Repas en déplacement</td>
+                                    <td>9,90 € par repas</td>
+                                </tr>
+                            </table>
+                        </div>
                         
                         <div class="form-group">
                             <label for="frais-transport">Frais de transport :</label>
@@ -75,6 +186,35 @@
                         <div class="form-group">
                             <label for="frais-materiel">Achat/entretien de matériel professionnel :</label>
                             <input type="number" id="frais-materiel" name="frais-materiel" step="0.01" value="0">
+                        </div>
+                        
+                        <div class="section-explicative">
+                            <h4>Comprendre l'amortissement du matériel</h4>
+                            <p>L'amortissement permet de répartir le coût d'un équipement sur plusieurs années fiscales, selon sa durée d'utilisation :</p>
+                            
+                            <div class="etape-calcul">
+                                <span class="numero">1</span> <strong>Matériel non amorti</strong> : déduit intégralement l'année de l'achat (petit matériel, consommables)
+                            </div>
+                            
+                            <div class="etape-calcul">
+                                <span class="numero">2</span> <strong>Matériel amorti</strong> : coût réparti sur plusieurs années
+                            </div>
+                            
+                            <div class="exemple-calcul">
+                                <h4>Exemple</h4>
+                                <p>Pour un ordinateur de 1500€ amorti sur 3 ans :</p>
+                                <ul>
+                                    <li>Année 1 : déduction de 500€ (1500€ ÷ 3)</li>
+                                    <li>Année 2 : déduction de 500€</li>
+                                    <li>Année 3 : déduction de 500€</li>
+                                </ul>
+                                <p>La formule utilisée est : <span class="formule">Déduction annuelle = Prix d'achat ÷ Durée d'amortissement</span></p>
+                            </div>
+                            
+                            <div class="astuce-fiscale">
+                                <h4>Astuce fiscale</h4>
+                                <p>Pour le matériel d'une valeur inférieure à 500€ HT, vous pouvez généralement le déduire intégralement l'année de l'achat, sans amortissement.</p>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="frais-formation">Frais de formation :</label>
@@ -100,6 +240,58 @@
             <!-- Onglet Résultats -->
             <div id="resultats" class="tab-pane">
                 <h2>Résultats de votre calcul d'impôts</h2>
+                
+                <div class="section-explicative">
+                    <h4>Comment est calculé votre impôt sur le revenu ?</h4>
+                    <p>L'impôt sur le revenu est calculé selon un barème progressif par tranches. Voici les étapes du calcul :</p>
+                    
+                    <div class="etape-calcul">
+                        <span class="numero">1</span> <strong>Calcul du revenu imposable</strong> = Total des revenus - Déductions (abattement forfaitaire ou frais réels)
+                    </div>
+                    
+                    <div class="etape-calcul">
+                        <span class="numero">2</span> <strong>Application du barème progressif</strong> sur le revenu imposable (barème 2023) :
+                    </div>
+                    
+                    <table class="tableau-explicatif">
+                        <tr>
+                            <th>Tranche de revenu</th>
+                            <th>Taux d'imposition</th>
+                        </tr>
+                        <tr>
+                            <td>Jusqu'à 10 777 €</td>
+                            <td>0%</td>
+                        </tr>
+                        <tr>
+                            <td>De 10 778 € à 27 478 €</td>
+                            <td>11%</td>
+                        </tr>
+                        <tr>
+                            <td>De 27 479 € à 78 570 €</td>
+                            <td>30%</td>
+                        </tr>
+                        <tr>
+                            <td>De 78 571 € à 168 994 €</td>
+                            <td>41%</td>
+                        </tr>
+                        <tr>
+                            <td>Au-delà de 168 994 €</td>
+                            <td>45%</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="exemple-calcul">
+                        <h4>Exemple de calcul</h4>
+                        <p>Pour un revenu imposable de 30 000 € :</p>
+                        <ul>
+                            <li>Tranche 0% : 0 € (sur les premiers 10 777 €)</li>
+                            <li>Tranche 11% : 1 837 € (sur les 16 701 € suivants)</li>
+                            <li>Tranche 30% : 757 € (sur les 2 522 € restants)</li>
+                            <li>Total de l'impôt : 2 594 €</li>
+                        </ul>
+                    </div>
+                </div>
+                
                 <div class="results-container">
                     <div class="result-box">
                         <h3>Récapitulatif des revenus</h3>
@@ -127,6 +319,40 @@
                     <h3>Aide pour votre déclaration</h3>
                     <p>Voici les informations à reporter sur votre déclaration d'impôts :</p>
                     <div id="aide-declaration"></div>
+                    
+                    <div class="section-explicative">
+                        <h4>Comment remplir votre déclaration ?</h4>
+                        <p>Voici les principales cases à remplir pour les intermittents du spectacle :</p>
+                        
+                        <table class="tableau-explicatif">
+                            <tr>
+                                <th>Case</th>
+                                <th>Description</th>
+                                <th>Où trouver l'information ?</th>
+                            </tr>
+                            <tr>
+                                <td>1AJ</td>
+                                <td>Salaires, cachets</td>
+                                <td>Attestations annuelles des employeurs, cumul des fiches de paie</td>
+                            </tr>
+                            <tr>
+                                <td>1AP</td>
+                                <td>Allocations chômage</td>
+                                <td>Attestation fiscale annuelle de Pôle Emploi</td>
+                            </tr>
+                            <tr>
+                                <td>1AK</td>
+                                <td>Frais réels</td>
+                                <td>À remplir uniquement si vous optez pour les frais réels</td>
+                            </tr>
+                        </table>
+                        
+                        <div class="astuce-fiscale">
+                            <h4>Important</h4>
+                            <p>Si vous optez pour les frais réels, vous devez joindre à votre déclaration une note détaillée listant tous vos frais professionnels. Conservez tous vos justificatifs (factures, tickets, etc.) pendant 3 ans.</p>
+                        </div>
+                    </div>
+                    
                     <button id="btn-imprimer" class="btn">Imprimer cette page</button>
                 </div>
                 

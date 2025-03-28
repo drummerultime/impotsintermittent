@@ -1,0 +1,215 @@
+/* Styles pour les éléments didactiques */
+
+/* Bulle d'information */
+.info-bulle {
+    position: relative;
+    display: inline-block;
+    margin-left: 5px;
+    cursor: help;
+}
+
+.info-bulle .icone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #3498db;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.info-bulle .contenu {
+    visibility: hidden;
+    width: 300px;
+    background-color: #f8f9fa;
+    color: #333;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -150px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 1.4;
+    border-left: 4px solid #3498db;
+}
+
+.info-bulle .contenu::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #f8f9fa transparent transparent transparent;
+}
+
+.info-bulle:hover .contenu {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Section explicative */
+.section-explicative {
+    background-color: #f8f9fa;
+    border-left: 4px solid #3498db;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.section-explicative h4 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.section-explicative p {
+    margin-bottom: 10px;
+}
+
+.section-explicative ul {
+    padding-left: 20px;
+}
+
+.section-explicative .formule {
+    background-color: #e9f7fe;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: monospace;
+    margin: 10px 0;
+    display: inline-block;
+}
+
+/* Tableau explicatif */
+.tableau-explicatif {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.tableau-explicatif th {
+    background-color: #3498db;
+    color: white;
+    text-align: left;
+    padding: 8px 12px;
+}
+
+.tableau-explicatif td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+}
+
+.tableau-explicatif tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Mise en évidence des étapes de calcul */
+.etape-calcul {
+    border-left: 3px solid #e67e22;
+    padding-left: 10px;
+    margin: 10px 0;
+}
+
+.etape-calcul .numero {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-color: #e67e22;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+/* Styles pour les tooltips sur les champs de formulaire */
+.tooltip {
+    position: relative;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Styles pour les explications des barèmes */
+.bareme-explication {
+    background-color: #f0f8ff;
+    border: 1px solid #b8daff;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.bareme-explication h4 {
+    color: #0056b3;
+    margin-top: 0;
+}
+
+/* Styles pour les exemples de calcul */
+.exemple-calcul {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.exemple-calcul h4 {
+    color: #856404;
+    margin-top: 0;
+}
+
+/* Styles pour les astuces fiscales */
+.astuce-fiscale {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.astuce-fiscale h4 {
+    color: #155724;
+    margin-top: 0;
+}

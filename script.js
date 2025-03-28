@@ -168,17 +168,50 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Estimation simplifiée de l'impôt (barème 2023)
         let impot = 0;
+        let detailCalculImpot = '<div class="section-explicative"><h4>Détail du calcul de votre impôt</h4>';
+        
+        // Calcul par tranches avec explications
         if (revenuImposable <= 10777) {
             impot = 0;
-        } else if (revenuImposable <= 27478) {
-            impot = (revenuImposable - 10777) * 0.11;
-        } else if (revenuImposable <= 78570) {
-            impot = (27478 - 10777) * 0.11 + (revenuImposable - 27478) * 0.30;
-        } else if (revenuImposable <= 168994) {
-            impot = (27478 - 10777) * 0.11 + (78570 - 27478) * 0.30 + (revenuImposable - 78570) * 0.41;
+            detailCalculImpot += `<p>Votre revenu imposable (${revenuImposable.toFixed(2)} €) est inférieur à 10 777 €, vous n'êtes donc pas imposable.</p>`;
         } else {
-            impot = (27478 - 10777) * 0.11 + (78570 - 27478) * 0.30 + (168994 - 78570) * 0.41 + (revenuImposable - 168994) * 0.45;
+            // Tranche 1 : 0%
+            detailCalculImpot += `<div class="etape-calcul"><span class="numero">1</span> <strong>Tranche à 0%</strong> : 0 € (sur les premiers 10 777 €)</div>`;
+            
+            // Tranche 2 : 11%
+            if (revenuImposable > 10777) {
+                const montantTranche2 = Math.min(revenuImposable, 27478) - 10777;
+                const impotTranche2 = montantTranche2 * 0.11;
+                impot += impotTranche2;
+                detailCalculImpot += `<div class="etape-calcul"><span class="numero">2</span> <strong>Tranche à 11%</strong> : ${impotTranche2.toFixed(2)} € (11% sur ${montantTranche2.toFixed(2)} €)</div>`;
+            }
+            
+            // Tranche 3 : 30%
+            if (revenuImposable > 27478) {
+                const montantTranche3 = Math.min(revenuImposable, 78570) - 27478;
+                const impotTranche3 = montantTranche3 * 0.30;
+                impot += impotTranche3;
+                detailCalculImpot += `<div class="etape-calcul"><span class="numero">3</span> <strong>Tranche à 30%</strong> : ${impotTranche3.toFixed(2)} € (30% sur ${montantTranche3.toFixed(2)} €)</div>`;
+            }
+            
+            // Tranche 4 : 41%
+            if (revenuImposable > 78570) {
+                const montantTranche4 = Math.min(revenuImposable, 168994) - 78570;
+                const impotTranche4 = montantTranche4 * 0.41;
+                impot += impotTranche4;
+                detailCalculImpot += `<div class="etape-calcul"><span class="numero">4</span> <strong>Tranche à 41%</strong> : ${impotTranche4.toFixed(2)} € (41% sur ${montantTranche4.toFixed(2)} €)</div>`;
+            }
+            
+            // Tranche 5 : 45%
+            if (revenuImposable > 168994) {
+                const montantTranche5 = revenuImposable - 168994;
+                const impotTranche5 = montantTranche5 * 0.45;
+                impot += impotTranche5;
+                detailCalculImpot += `<div class="etape-calcul"><span class="numero">5</span> <strong>Tranche à 45%</strong> : ${impotTranche5.toFixed(2)} € (45% sur ${montantTranche5.toFixed(2)} €)</div>`;
+            }
         }
+        
+        detailCalculImpot += `<p class="formule"><strong>Total de l'impôt</strong> = ${impot.toFixed(2)} €</p></div>`;
         
         // Afficher les résultats
         // Récapitulatif des revenus
@@ -213,6 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('estimation-impot').innerHTML = `
             <p class="big-number">${impot.toFixed(2)} €</p>
             <p>Taux d'imposition moyen : ${((impot / revenuImposable) * 100).toFixed(2)}%</p>
+            ${detailCalculImpot}
         `;
         
         // Aide pour la déclaration
