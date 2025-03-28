@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur d'impôts pour Intermittents du Spectacle</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calculateur d'impôts pour Intermittents du Spectacle</h1>
+            <p class="subtitle">Spécialement conçu pour les techniciens du spectacle</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="revenus">Revenus</button>
+            <button class="tab-btn" data-tab="frais-reels">Frais Réels</button>
+            <button class="tab-btn" data-tab="resultats">Résultats</button>
+        </div>
+
+        <div class="tab-content">
+            <!-- Onglet Revenus -->
+            <div id="revenus" class="tab-pane active">
+                <h2>Vos revenus d'intermittent</h2>
+                <form id="revenus-form">
+                    <div class="form-group">
+                        <label for="salaire-brut">Salaire brut total (cachets) :</label>
+                        <input type="number" id="salaire-brut" name="salaire-brut" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="allocations-chomage">Allocations chômage (Pôle Emploi) :</label>
+                        <input type="number" id="allocations-chomage" name="allocations-chomage" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="autres-revenus">Autres revenus imposables :</label>
+                        <input type="number" id="autres-revenus" name="autres-revenus" step="0.01" value="0">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn next-btn" data-next="frais-reels">Suivant</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Onglet Frais Réels -->
+            <div id="frais-reels" class="tab-pane">
+                <h2>Vos frais réels déductibles</h2>
+                <div class="info-box">
+                    <p>En tant qu'intermittent du spectacle, vous pouvez opter pour la déduction des frais réels au lieu de l'abattement forfaitaire de 10%.</p>
+                </div>
+                <form id="frais-form">
+                    <div class="form-group">
+                        <label for="option-deduction">Option de déduction :</label>
+                        <select id="option-deduction" name="option-deduction">
+                            <option value="forfait">Abattement forfaitaire (10%)</option>
+                            <option value="reels">Frais réels</option>
+                        </select>
+                    </div>
+                    
+                    <div id="section-frais-reels" class="hidden">
+                        <h3>Détail des frais réels</h3>
+                        
+                        <div class="form-group">
+                            <label for="frais-transport">Frais de transport :</label>
+                            <input type="number" id="frais-transport" name="frais-transport" step="0.01" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="frais-repas">Frais de repas :</label>
+                            <input type="number" id="frais-repas" name="frais-repas" step="0.01" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="frais-hebergement">Frais d'hébergement :</label>
+                            <input type="number" id="frais-hebergement" name="frais-hebergement" step="0.01" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="frais-materiel">Achat/entretien de matériel professionnel :</label>
+                            <input type="number" id="frais-materiel" name="frais-materiel" step="0.01" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="frais-formation">Frais de formation :</label>
+                            <input type="number" id="frais-formation" name="frais-formation" step="0.01" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="frais-documentation">Documentation professionnelle :</label>
+                            <input type="number" id="frais-documentation" name="frais-documentation" step="0.01" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="autres-frais">Autres frais professionnels :</label>
+                            <input type="number" id="autres-frais" name="autres-frais" step="0.01" value="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn prev-btn" data-prev="revenus">Précédent</button>
+                        <button type="button" class="btn next-btn" data-next="resultats">Calculer</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Onglet Résultats -->
+            <div id="resultats" class="tab-pane">
+                <h2>Résultats de votre calcul d'impôts</h2>
+                <div class="results-container">
+                    <div class="result-box">
+                        <h3>Récapitulatif des revenus</h3>
+                        <div id="recap-revenus"></div>
+                    </div>
+                    
+                    <div class="result-box">
+                        <h3>Déductions</h3>
+                        <div id="recap-deductions"></div>
+                    </div>
+                    
+                    <div class="result-box highlight">
+                        <h3>Revenu net imposable</h3>
+                        <div id="revenu-imposable" class="big-number"></div>
+                    </div>
+                    
+                    <div class="result-box">
+                        <h3>Estimation de l'impôt</h3>
+                        <div id="estimation-impot"></div>
+                        <p class="disclaimer">Cette estimation est donnée à titre indicatif et ne prend pas en compte toutes les spécificités de votre situation fiscale.</p>
+                    </div>
+                </div>
+                
+                <div class="export-section">
+                    <h3>Aide pour votre déclaration</h3>
+                    <p>Voici les informations à reporter sur votre déclaration d'impôts :</p>
+                    <div id="aide-declaration"></div>
+                    <button id="btn-imprimer" class="btn">Imprimer cette page</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn prev-btn" data-prev="frais-reels">Modifier les données</button>
+                    <button type="button" class="btn" id="btn-reset">Nouveau calcul</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Cet outil est fourni à titre informatif. Pour des conseils fiscaux personnalisés, consultez un expert-comptable.</p>
+            <p>Basé sur les informations de <a href="https://blog.fredcazaux.com/intermittents-declarez-vos-impots-facilement/" target="_blank">Fred Cazaux</a> et <a href="https://www.snam-cgt.org/declaration-frais-reels-artistes-intermittents-spectacle/" target="_blank">SNAM-CGT</a>.</p>
+        </footer>
+    </div>
+
+    <script src="baremes.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
