@@ -1,0 +1,36 @@
+/* Styles pour les options de frais réels simplifiés */
+
+.sous-options {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.sous-options h5 {
+    color: #2c3e50;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 1em;
+}
+
+#section-frais-simplifies {
+    background-color: #f5f9ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #d1e1fd;
+}
+
+#section-frais-simplifies h3 {
+    color: #3498db;
+    margin-top: 0;
+}
+
+.frais-simplifies-info {
+    background-color: #e8f4fc;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border-left: 4px solid #3498db;
+}

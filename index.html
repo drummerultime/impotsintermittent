@@ -6,6 +6,8 @@
     <title>Calculateur d'impôts pour Intermittents du Spectacle</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="didactique.css">
+    <link rel="stylesheet" href="export.css">
+    <link rel="stylesheet" href="frais-simplifies.css">
 </head>
 <body>
     <div class="container">
@@ -92,9 +94,19 @@
                     
                     <div class="bareme-explication">
                         <h4>Option 2 : Frais réels</h4>
-                        <p>Vous déduisez l'ensemble de vos frais professionnels réellement engagés et justifiés : déplacements, repas, matériel, etc.</p>
+                        <p>Vous déduisez l'ensemble de vos frais professionnels réellement engagés : déplacements, repas, matériel, etc.</p>
                         <p>Cette option est avantageuse si vos frais dépassent 10% de vos revenus.</p>
                         <p><strong>Important :</strong> Vous devez conserver tous vos justificatifs pendant 3 ans en cas de contrôle fiscal.</p>
+                        
+                        <div class="sous-options">
+                            <h5>Frais réels simplifiés</h5>
+                            <p>Vous déclarez vos frais de manière globale (kilométrage total, nombre de repas, montant global du matériel) sans avoir à détailler chaque dépense.</p>
+                            <p>Avantage : Moins de justificatifs à conserver, déclaration plus rapide.</p>
+                            
+                            <h5>Frais réels complets</h5>
+                            <p>Vous détaillez précisément chaque mission, déplacement et achat de matériel avec tous les justificatifs correspondants.</p>
+                            <p>Avantage : Déduction plus précise, potentiellement plus avantageuse fiscalement.</p>
+                        </div>
                     </div>
                 </div>
                 
@@ -113,8 +125,67 @@
                         </label>
                         <select id="option-deduction" name="option-deduction">
                             <option value="forfait">Abattement forfaitaire (10%)</option>
-                            <option value="reels">Frais réels</option>
+                            <option value="reels-simplifies">Frais réels simplifiés</option>
+                            <option value="reels-complets">Frais réels complets</option>
                         </select>
+                    </div>
+                    
+                    <div id="section-frais-simplifies" class="hidden">
+                        <h3>Frais réels simplifiés</h3>
+                        
+                        <div class="frais-simplifies-info">
+                            <p>Cette méthode vous permet de déclarer vos frais professionnels de manière globale, sans avoir à détailler chaque dépense.</p>
+                            <p>Vous n'aurez pas besoin de conserver tous les justificatifs détaillés, mais seulement les documents principaux.</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="km-total">Kilométrage total annuel :</label>
+                            <input type="number" id="km-total" name="km-total" min="0" value="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="type-vehicule-simplifie">Type de véhicule :</label>
+                            <select id="type-vehicule-simplifie" name="type-vehicule-simplifie">
+                                <option value="voiture">Voiture</option>
+                                <option value="moto">Moto</option>
+                                <option value="scooter">Scooter/Vélomoteur</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" id="puissance-fiscale-simplifie">
+                            <label for="puissance-fiscale-simplifie-select">Puissance fiscale :</label>
+                            <select id="puissance-fiscale-simplifie-select" name="puissance-fiscale-simplifie-select">
+                                <option value="3 CV et moins">3 CV et moins</option>
+                                <option value="4 CV">4 CV</option>
+                                <option value="5 CV" selected>5 CV</option>
+                                <option value="6 CV">6 CV</option>
+                                <option value="7 CV et plus">7 CV et plus</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nb-repas-total">Nombre total de repas professionnels :</label>
+                            <input type="number" id="nb-repas-total" name="nb-repas-total" min="0" value="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="type-repas-simplifie">Type de repas majoritaire :</label>
+                            <select id="type-repas-simplifie" name="type-repas-simplifie">
+                                <option value="repasAuRestaurant">Repas au restaurant (19.40€)</option>
+                                <option value="repasSurLieuDeTravail">Repas sur lieu de travail (9.90€)</option>
+                                <option value="repasDeplacement">Repas en déplacement (9.90€)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="materiel-total">Montant total du matériel professionnel :</label>
+                            <input type="number" id="materiel-total" name="materiel-total" step="0.01" value="0">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="autres-frais-simplifies">Autres frais professionnels :</label>
+                            <input type="number" id="autres-frais-simplifies" name="autres-frais-simplifies" step="0.01" value="0">
+                        </div>
                     </div>
                     
                     <div id="section-frais-reels" class="hidden">
@@ -371,5 +442,8 @@
 
     <script src="baremes.js"></script>
     <script src="script.js"></script>
+    <script src="export.js"></script>
+    <script src="excel-export.js"></script>
+    <script src="comparateur.js"></script>
 </body>
 </html>

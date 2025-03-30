@@ -61,14 +61,63 @@ document.addEventListener('DOMContentLoaded', function() {
     // Gestion de l'option de déduction
     const optionDeduction = document.getElementById('option-deduction');
     const sectionFraisReels = document.getElementById('section-frais-reels');
+    const sectionFraisSimplifies = document.getElementById('section-frais-simplifies');
     
     optionDeduction.addEventListener('change', function() {
-        if (this.value === 'reels') {
+        // Cacher toutes les sections
+        sectionFraisReels.classList.add('hidden');
+        sectionFraisSimplifies.classList.add('hidden');
+        
+        // Afficher la section appropriée
+        if (this.value === 'reels-complets') {
             sectionFraisReels.classList.remove('hidden');
-        } else {
-            sectionFraisReels.classList.add('hidden');
+        } else if (this.value === 'reels-simplifies') {
+            sectionFraisSimplifies.classList.remove('hidden');
         }
     });
+    
+    // Gestion du type de véhicule pour les frais simplifiés
+    const typeVehiculeSimplifieSel = document.getElementById('type-vehicule-simplifie');
+    const puissanceFiscaleSimplifieSel = document.getElementById('puissance-fiscale-simplifie-select');
+    
+    typeVehiculeSimplifieSel.addEventListener('change', function() {
+        // Mettre à jour les options de puissance fiscale pour les frais simplifiés
+        mettreAJourPuissanceFiscaleSimplifiee();
+    });
+    
+    // Fonction pour mettre à jour les options de puissance fiscale en mode simplifié
+    function mettreAJourPuissanceFiscaleSimplifiee() {
+        const typeVehicule = document.getElementById('type-vehicule-simplifie').value;
+        const puissanceFiscaleSelect = document.getElementById('puissance-fiscale-simplifie-select');
+        
+        // Vider les options actuelles
+        puissanceFiscaleSelect.innerHTML = '';
+        
+        // Ajouter les options en fonction du type de véhicule
+        if (typeVehicule === 'voiture') {
+            Baremes.kilometrique.voitures.forEach(voiture => {
+                const option = document.createElement('option');
+                option.value = voiture.puissance;
+                option.textContent = voiture.puissance;
+                if (voiture.puissance === '5 CV') {
+                    option.selected = true;
+                }
+                puissanceFiscaleSelect.appendChild(option);
+            });
+        } else if (typeVehicule === 'moto') {
+            Baremes.kilometrique.motos.forEach(moto => {
+                const option = document.createElement('option');
+                option.value = moto.puissance;
+                option.textContent = moto.puissance;
+                puissanceFiscaleSelect.appendChild(option);
+            });
+        } else if (typeVehicule === 'scooter') {
+            const option = document.createElement('option');
+            option.value = Baremes.kilometrique.scooters[0].puissance;
+            option.textContent = Baremes.kilometrique.scooters[0].puissance;
+            puissanceFiscaleSelect.appendChild(option);
+        }
+    }
     
     // Bouton d'impression
     const btnImprimer = document.getElementById('btn-imprimer');
@@ -125,8 +174,53 @@ document.addEventListener('DOMContentLoaded', function() {
             // Abattement forfaitaire de 10%
             totalDeductions = Math.min(totalRevenus * 0.1, 12829); // Plafond 2023
             detailDeductions = `<p>Abattement forfaitaire de 10% : ${totalDeductions.toFixed(2)} €</p>`;
-        } else {
-            // Calcul des frais réels
+        } else if (optionDeduction === 'reels-simplifies') {
+            // Calcul des frais réels simplifiés
+            
+            // Frais kilométriques simplifiés
+            const kmTotal = parseInt(document.getElementById('km-total').value) || 0;
+            const typeVehiculeSimp = document.getElementById('type-vehicule-simplifie').value;
+            const puissanceFiscaleSimp = document.getElementById('puissance-fiscale-simplifie-select').value;
+            
+            let fraisKmSimplifies = 0;
+            if (kmTotal > 0) {
+                if (typeVehiculeSimp === 'voiture') {
+                    fraisKmSimplifies = Baremes.kilometrique.calculVoiture(puissanceFiscaleSimp, kmTotal);
+                } else if (typeVehiculeSimp === 'moto') {
+                    fraisKmSimplifies = Baremes.kilometrique.calculMoto(puissanceFiscaleSimp, kmTotal);
+                } else if (typeVehiculeSimp === 'scooter') {
+                    fraisKmSimplifies = Baremes.kilometrique.calculScooter(kmTotal);
+                }
+            }
+            
+            // Frais de repas simplifiés
+            const nbRepasTotal = parseInt(document.getElementById('nb-repas-total').value) || 0;
+            const typeRepasSimp = document.getElementById('type-repas-simplifie').value;
+            
+            let fraisRepasSimplifies = 0;
+            if (nbRepasTotal > 0) {
+                fraisRepasSimplifies = Baremes.repas.calculRepas(typeRepasSimp, nbRepasTotal);
+            }
+            
+            // Matériel professionnel
+            const materielTotal = parseFloat(document.getElementById('materiel-total').value) || 0;
+            
+            // Autres frais
+            const autresFraisSimplifies = parseFloat(document.getElementById('autres-frais-simplifies').value) || 0;
+            
+            // Total des frais réels simplifiés
+            totalDeductions = fraisKmSimplifies + fraisRepasSimplifies + materielTotal + autresFraisSimplifies;
+            
+            // Détail des déductions
+            detailDeductions = `
+                <p>Frais kilométriques (${kmTotal} km) : ${fraisKmSimplifies.toFixed(2)} €</p>
+                <p>Frais de repas (${nbRepasTotal} repas) : ${fraisRepasSimplifies.toFixed(2)} €</p>
+                <p>Matériel professionnel : ${materielTotal.toFixed(2)} €</p>
+                <p>Autres frais : ${autresFraisSimplifies.toFixed(2)} €</p>
+                <p><strong>Total des frais réels simplifiés : ${totalDeductions.toFixed(2)} €</strong></p>
+            `;
+        } else if (optionDeduction === 'reels-complets') {
+            // Calcul des frais réels complets
             // Récupérer les frais de missions
             let totalFraisMissions = 0;
             missions.forEach(mission => {
@@ -159,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p>Formation : ${fraisFormation.toFixed(2)} €</p>
                 <p>Documentation : ${fraisDocumentation.toFixed(2)} €</p>
                 <p>Autres frais : ${autresFrais.toFixed(2)} €</p>
-                <p><strong>Total des frais réels : ${totalDeductions.toFixed(2)} €</strong></p>
+                <p><strong>Total des frais réels complets : ${totalDeductions.toFixed(2)} €</strong></p>
             `;
         }
         
@@ -267,14 +361,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td>${allocationChomage.toFixed(2)} €</td>
                     <td>Allocations chômage</td>
                 </tr>
-                ${optionDeduction === 'reels' ? `
+                ${optionDeduction === 'reels-simplifies' || optionDeduction === 'reels-complets' ? `
                 <tr>
                     <td>1AK</td>
                     <td>${totalDeductions.toFixed(2)} €</td>
                     <td>Frais réels</td>
                 </tr>` : ''}
             </table>
-            <p class="info-box">N'oubliez pas de joindre une note détaillée de vos frais réels à votre déclaration si vous optez pour cette déduction.</p>
+            ${optionDeduction === 'reels-simplifies' ? 
+            `<p class="info-box">Pour les frais réels simplifiés, conservez les justificatifs principaux (factures importantes, relevés kilométriques) mais vous n'avez pas besoin de joindre une note détaillée à votre déclaration.</p>` : 
+            optionDeduction === 'reels-complets' ? 
+            `<p class="info-box">N'oubliez pas de joindre une note détaillée de tous vos frais réels à votre déclaration et de conserver l'ensemble des justificatifs pendant 3 ans.</p>` : 
+            `<p class="info-box">Avec l'abattement forfaitaire, vous n'avez pas besoin de justifier vos frais professionnels.</p>`}
         `;
     }
     
